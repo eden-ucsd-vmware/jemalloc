@@ -3772,7 +3772,10 @@ je_malloc_usable_size(JEMALLOC_USABLE_SIZE_CONST void *ptr) {
 JEMALLOC_ATTR(constructor)
 static void
 jemalloc_constructor(void) {
-	malloc_init();
+	/* NOTE: turning off the init in constructor when linked into Eden
+	 * as we don't want jemalloc to be sending mmap()s during library load,
+	 * which might happen before initializing remote memory. */
+	// malloc_init();
 }
 #endif
 
